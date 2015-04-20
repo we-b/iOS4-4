@@ -41,23 +41,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
 //==================================テーブルビュ===========================================
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        println("1111111111111111111111111111")
         return tweetArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier("myCell") as UITableViewCell
-        
+        var tweet = tweetArray[indexPath.row]
+        println("222222222222222222222222222222222222222")
         var nameLabel = cell.viewWithTag(1) as UILabel
-        nameLabel.text = tweetArray[indexPath.row]["name"]
+        nameLabel.text = tweet["name"]
         nameLabel.font = UIFont(name: "HirakakuProN-W6", size: 13)
         
         var textLabel = cell.viewWithTag(2) as UILabel
-        textLabel.text = tweetArray[indexPath.row]["text"]
+        textLabel.text = tweet["text"]
         textLabel.font = UIFont(name: "HirakakuProN-W6", size: 18)
         textLabel.numberOfLines = 0
         
         var timeLabel = cell.viewWithTag(3) as UILabel
-        timeLabel.text = tweetArray[indexPath.row]["time"]
+        timeLabel.text = tweet["time"]
         timeLabel.font = UIFont(name: "HirakakuProN-W3", size: 10)
         timeLabel.textColor = UIColor.grayColor()
         
@@ -96,7 +98,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //スクロールビュー
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        headerScrollView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: headerScrollView.contentOffset.x * 0.6 / 375)
+        headerScrollView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: headerScrollView.contentOffset.x * 0.6 / self.view.frame.width)
         println("contentOffset: \(headerScrollView.contentOffset)")
     }
     
@@ -135,14 +137,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //------------------------イベント---------------------------
     
     func tappedCancelBtn(sender :AnyObject){
-        let backgroundView = self.view.viewWithTag(1) as UIView!
+        let backgroundView = self.view.viewWithTag(5) as UIView!
         backgroundView.removeFromSuperview()
     }
     
     func tappedSubmitBtn(sender :AnyObject){
         
-        let textField = self.view.viewWithTag(2) as UITextField
-        let textView = self.view.viewWithTag(3) as UITextView
+        let textField = self.view.viewWithTag(6) as UITextField
+        let textView = self.view.viewWithTag(7) as UITextView
         
         if textField.text.isEmpty || textView.text.isEmpty{
             var alertController = UIAlertController(title: "Error", message: "'name' or 'text' is empty", preferredStyle: UIAlertControllerStyle.Alert)
@@ -161,7 +163,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             tweetArray.insert(tweetDic, atIndex: 0)
             
             
-            let backgroundView = self.view.viewWithTag(1) as UIView!
+            let backgroundView = self.view.viewWithTag(5) as UIView!
             backgroundView.removeFromSuperview()
             textField.text = ""
             textView.text = ""
@@ -184,7 +186,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let backgroundView = UIView()
         backgroundView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         backgroundView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
-        backgroundView.tag = 1
+        backgroundView.tag = 5
         return backgroundView
     }
     
@@ -204,7 +206,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         textField.frame = CGRectMake(10, 40, 280, 40)
         textField.font = UIFont(name: "HiraKakuProN-W6", size: 15)
         textField.borderStyle = UITextBorderStyle.RoundedRect
-        textField.tag = 2
+        textField.tag = 6
         return textField
     }
     
@@ -215,7 +217,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         textView.layer.cornerRadius = 8
         textView.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1.0).CGColor
         textView.layer.borderWidth = 1
-        textView.tag = 3
+        textView.tag = 7
         return textView
     }
     
