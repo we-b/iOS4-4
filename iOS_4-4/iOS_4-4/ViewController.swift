@@ -14,11 +14,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var headerScrollView: UIScrollView!
     @IBOutlet weak var tableView: UITableView!
     
-    let backgroundView = UIView()
-    let textField = UITextField()
-    let textView = UITextView()
-    let headerBackView = UIView()
-    
     var tweetArray:Array<Dictionary<String, String>> = []
     
     override func viewDidLoad() {
@@ -140,10 +135,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //------------------------イベント---------------------------
     
     func tappedCancelBtn(sender :AnyObject){
+        let backgroundView = self.view.viewWithTag(1) as UIView!
         backgroundView.removeFromSuperview()
     }
     
     func tappedSubmitBtn(sender :AnyObject){
+        
+        let textField = self.view.viewWithTag(2) as UITextField
+        let textView = self.view.viewWithTag(3) as UITextView
         
         if textField.text.isEmpty || textView.text.isEmpty{
             var alertController = UIAlertController(title: "Error", message: "'name' or 'text' is empty", preferredStyle: UIAlertControllerStyle.Alert)
@@ -161,6 +160,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             tweetDic["time"] = getCurrentTime()
             tweetArray.insert(tweetDic, atIndex: 0)
             
+            
+            let backgroundView = self.view.viewWithTag(1) as UIView!
             backgroundView.removeFromSuperview()
             textField.text = ""
             textView.text = ""
@@ -180,8 +181,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //---------------------------投稿画面で使用する部品の生成-----------------------
     func makeBackgroundView() -> UIView {
+        let backgroundView = UIView()
         backgroundView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         backgroundView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
+        backgroundView.tag = 1
         return backgroundView
     }
     
@@ -197,18 +200,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func makeTextField() -> UITextField {
+        let textField = UITextField()
         textField.frame = CGRectMake(10, 40, 280, 40)
         textField.font = UIFont(name: "HiraKakuProN-W6", size: 15)
         textField.borderStyle = UITextBorderStyle.RoundedRect
+        textField.tag = 2
         return textField
     }
     
     func makeTextView() ->UITextView{
+        let textView = UITextView()
         textView.frame = CGRectMake(10, 120, 280, 110)
         textView.font = UIFont(name: "HiraKakuProN-W6", size: 15)
         textView.layer.cornerRadius = 8
         textView.layer.borderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1.0).CGColor
         textView.layer.borderWidth = 1
+        textView.tag = 3
         return textView
     }
     
